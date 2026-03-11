@@ -1,13 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>FilmHall Booking</title>
+<title>FilmHall Ticket</title>
+
 <style>
-body{font-family:Arial;text-align:center;background:#111;color:white}
-.container{margin-top:30px}
-.logo{width:250px;border-radius:10px}
-.poster{width:250px;border-radius:10px}
-button{padding:12px 25px;font-size:18px;background:red;color:white;border:none;border-radius:5px}
+body{
+font-family:Arial;
+text-align:center;
+background:#111;
+color:white
+}
+
+.logo{
+width:120px;
+margin-top:10px
+}
+
+.poster{
+width:250px;
+border-radius:10px
+}
+
+button{
+padding:14px 30px;
+font-size:18px;
+background:red;
+color:white;
+border:none;
+border-radius:6px;
+margin-top:20px
+}
+
 </style>
 </head>
 
@@ -17,20 +40,80 @@ button{padding:12px 25px;font-size:18px;background:red;color:white;border:none;b
 
 <h1>FILMHALL</h1>
 
-<div class="container">
-
 <img src="poster.jpg" class="poster">
 
-<h2>Movie: ANANTA</h2>
+<h2>Movie : BARABADHU</h2>
 
-<p>Total Seats: <b>100</b></p>
-<p>Remaining Seats: <b id="remain">100</b></p>
+<p>Total Seats : 100</p>
 
-<button onclick="location.href='seat-booking.html'">
-Book Ticket
-</button>
+<p>Remaining Seats : <b id="remain">Loading...</b></p>
 
-</div>
+<button onclick="buyTicket()">Pay ₹100 For Ticket</button>
+
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCXSoJ951nIgHvyQVwfBALCL4r2qRxoS8g",
+  authDomain: "filmhall-ticket.firebaseapp.com",
+  projectId: "filmhall-ticket",
+  storageBucket: "filmhall-ticket.firebasestorage.app",
+  messagingSenderId: "856241264632",
+  appId: "1:856241264632:web:986c80f2f7970d99f8e80d",
+  measurementId: "G-LKBSVCM00Y"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const docRef = doc(db,"shows","today");
+
+async function loadSeats(){
+
+const snap = await getDoc(docRef);
+
+if(snap.exists()){
+
+let booked = snap.data().booked;
+let remain = 100 - booked;
+
+document.getElementById("remain").innerText = remain;
+
+}
+
+}
+
+loadSeats();
+
+
+async function buyTicket(){
+
+const snap = await getDoc(docRef);
+
+let booked = snap.data().booked;
+
+if(booked >= 100){
+
+alert("HOUSEFULL");
+
+return;
+
+}
+
+let ticketNumber = booked + 1;
+
+await updateDoc(docRef,{
+booked:ticketNumber
+});
+
+window.location.href="ticket.html?ticket="+ticketNumber;
+
+}
+
+</script>
 
 </body>
 </html>
