@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <title>Your Ticket</title>
@@ -10,25 +11,21 @@ body{
 text-align:center;
 font-family:Arial;
 background:#111;
-color:white
+color:white;
 }
 
 .ticket{
-
 border:2px dashed white;
 padding:20px;
 width:300px;
 margin:auto;
-margin-top:50px
-
+margin-top:60px;
 }
 
 button{
-
 padding:10px 20px;
 margin-top:20px;
-font-size:16px
-
+font-size:16px;
 }
 
 </style>
@@ -41,11 +38,11 @@ font-size:16px
 
 <h2>FILMHALL</h2>
 
-<p>Movie : ANANTA</p>
+<p>Movie : BARABADHU</p>
 
-<p>Ticket Number :</p>
+<p>Ticket Number</p>
 
-<h1 id="ticketNo"></h1>
+<h1 id="ticketNo">Loading...</h1>
 
 <p>Price : ₹100</p>
 
@@ -53,17 +50,46 @@ font-size:16px
 
 </div>
 
-<button onclick="window.print()">
-Download / Print Ticket
-</button>
+<button onclick="window.print()">Download Ticket</button>
 
-<script>
 
-const urlParams = new URLSearchParams(window.location.search);
+<script type="module">
 
-const ticket = urlParams.get('ticket');
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-document.getElementById("ticketNo").innerText = ticket;
+const firebaseConfig = {
+  apiKey: "AIzaSyCXSoJ951nIgHvyQVwfBALCL4r2qRxoS8g",
+  authDomain: "filmhall-ticket.firebaseapp.com",
+  projectId: "filmhall-ticket",
+  storageBucket: "filmhall-ticket.firebasestorage.app",
+  messagingSenderId: "856241264632",
+  appId: "1:856241264632:web:986c80f2f7970d99f8e80d",
+  measurementId: "G-LKBSVCM00Y"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const docRef = doc(db,"shows","today");
+
+async function generateTicket(){
+
+const snap = await getDoc(docRef);
+
+let booked = snap.data().booked;
+
+let ticketNumber = booked + 1;
+
+await updateDoc(docRef,{
+booked:ticketNumber
+});
+
+document.getElementById("ticketNo").innerText=ticketNumber;
+
+}
+
+generateTicket();
 
 </script>
 
