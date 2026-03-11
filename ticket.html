@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Your Ticket</title>
+</head>
+
+<body style="text-align:center;font-family:Arial">
+
+<h1>FILMHALL TICKET</h1>
+
+<p>Movie: "BARABADHU"</p>
+
+<p>Seat Number:</p>
+
+<h2 id="seat"></h2>
+
+<button onclick="window.print()">Print Ticket</button>
+
+<script>
+
+document.getElementById("seat").innerText =
+localStorage.getItem("seat")
+
+</script>
+
+</body>
+</html>
