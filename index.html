@@ -10,7 +10,10 @@ text-align:center;
 background:#111;
 color:white
 }
-
+.logo{
+width:120px;
+margin-top:20px;
+}
 .poster{
 width:250px;
 border-radius:10px;
@@ -37,6 +40,7 @@ font-size:28px
 
 <body>
 <img src="logo.jpg" class="logo">
+
 <h1>FILMHALL</h1>
 
 <img src="poster.jpg" class="poster">
@@ -57,12 +61,12 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
-apiKey: "AIzaSyCXSoJ951nIgHvyQVwfBALCL4r2qRxoS8g",
-authDomain: "filmhall-ticket.firebaseapp.com",
-projectId: "filmhall-ticket",
-storageBucket: "filmhall-ticket.firebasestorage.app",
-messagingSenderId: "856241264632",
-appId: "1:856241264632:web:986c80f2f7970d99f8e80d"
+apiKey: "AIzaSyA6gQVhIAYe_aQ6dbsC8yPmIbry39qr5_A",
+authDomain: "ticket-filmhall.firebaseapp.com",
+projectId: "ticket-filmhall",
+storageBucket: "ticket-filmhall.firebasestorage.app",
+messagingSenderId: "661202319125",
+appId: "1:661202319125:web:5f6ea7fa6ce02188cf5b1c"
 };
 
 const app = initializeApp(firebaseConfig);
