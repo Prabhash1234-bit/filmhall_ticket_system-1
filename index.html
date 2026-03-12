@@ -10,12 +10,9 @@ text-align:center;
 background:#111;
 color:white
 }
-.logo{
-width:120px;
-margin-top:20px;
-}
+
 .poster{
-width:260px;
+width:250px;
 border-radius:10px;
 margin-top:20px
 }
@@ -30,12 +27,16 @@ border-radius:6px;
 margin-top:20px
 }
 
+#housefull{
+display:none;
+color:red;
+font-size:28px
+}
 </style>
 </head>
 
 <body>
 <img src="logo.jpg" class="logo">
-
 <h1>FILMHALL</h1>
 
 <img src="poster.jpg" class="poster">
@@ -46,8 +47,9 @@ margin-top:20px
 
 <p>Remaining Seats : <b id="remain">Loading...</b></p>
 
-<button onclick="pay()">Pay ₹100 Ticket</button>
-<h2 id="housefull" style="color:red;display:none;">HOUSEFULL</h2>
+<button id="payBtn" onclick="pay()">Pay ₹100 Ticket</button>
+
+<h2 id="housefull">HOUSEFULL</h2>
 
 <script type="module">
 
@@ -55,13 +57,12 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCXSoJ951nIgHvyQVwfBALCL4r2qRxoS8g",
-  authDomain: "filmhall-ticket.firebaseapp.com",
-  projectId: "filmhall-ticket",
-  storageBucket: "filmhall-ticket.firebasestorage.app",
-  messagingSenderId: "856241264632",
-  appId: "1:856241264632:web:986c80f2f7970d99f8e80d",
-  measurementId: "G-LKBSVCM00Y"
+apiKey: "AIzaSyCXSoJ951nIgHvyQVwfBALCL4r2qRxoS8g",
+authDomain: "filmhall-ticket.firebaseapp.com",
+projectId: "filmhall-ticket",
+storageBucket: "filmhall-ticket.firebasestorage.app",
+messagingSenderId: "856241264632",
+appId: "1:856241264632:web:986c80f2f7970d99f8e80d"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -71,21 +72,21 @@ const ref = doc(db,"filmhall","counter");
 
 async function loadSeats(){
 
-  const snap = await getDoc(ref);
+const snap = await getDoc(ref);
 
-  let sold = snap.data().sold;
+let sold = snap.data().sold;
 
-  let remain = 100 - sold;
+let remain = 100 - sold;
 
-  document.getElementById("remain").innerText = remain;
+document.getElementById("remain").innerText = remain;
 
-  if(remain <= 0){
+if(remain <= 0){
 
-    document.getElementById("payBtn").style.display="none";
+document.getElementById("payBtn").style.display="none";
 
-    document.getElementById("housefull").style.display="block";
+document.getElementById("housefull").style.display="block";
 
-  }
+}
 
 }
 
@@ -93,12 +94,17 @@ loadSeats();
 
 window.pay = function(){
 
-  window.open("upi://pay?pa=7326097670@ybl&pn=FilmHall&am=100");
+window.open("upi://pay?pa=7326097670@ybl&pn=FilmHall&am=100");
 
-  setTimeout(()=>{
+setTimeout(()=>{
 
-    window.location.href="ticket.html";
+window.location.href="ticket.html";
 
-  },4000);
+},4000)
 
 }
+
+</script>
+
+</body>
+</html>
