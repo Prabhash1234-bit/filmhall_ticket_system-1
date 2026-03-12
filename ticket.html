@@ -21,7 +21,7 @@ margin-top:50px
 }
 
 button{
-padding:10px 20px;
+padding:12px 20px;
 font-size:18px;
 margin-top:20px
 }
@@ -49,21 +49,18 @@ margin-top:20px
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-
 import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCXSoJ951nIgHvyQVwfBALCL4r2qRxoS8g",
-  authDomain: "filmhall-ticket.firebaseapp.com",
-  projectId: "filmhall-ticket",
-  storageBucket: "filmhall-ticket.firebasestorage.app",
-  messagingSenderId: "856241264632",
-  appId: "1:856241264632:web:986c80f2f7970d99f8e80d",
-  measurementId: "G-LKBSVCM00Y"
+apiKey: "AIzaSyCXSoJ951nIgHvyQVwfBALCL4r2qRxoS8g",
+authDomain: "filmhall-ticket.firebaseapp.com",
+projectId: "filmhall-ticket",
+storageBucket: "filmhall-ticket.firebasestorage.app",
+messagingSenderId: "856241264632",
+appId: "1:856241264632:web:986c80f2f7970d99f8e80d"
 };
 
 const app = initializeApp(firebaseConfig);
-
 const db = getFirestore(app);
 
 const ref = doc(db,"filmhall","counter");
@@ -74,11 +71,19 @@ const snap = await getDoc(ref);
 
 let sold = snap.data().sold;
 
+if(sold >= 100){
+
+document.body.innerHTML="<h1>HOUSEFULL</h1>";
+
+return;
+
+}
+
 sold++;
 
 await updateDoc(ref,{sold:sold});
 
-document.getElementById("number").innerText = sold;
+document.getElementById("number").innerText=sold;
 
 }
 
