@@ -1,46 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<title>FilmHall Ticket</title>
+<title>FilmHall Booking</title>
 
 <style>
-
 body{
 font-family:Arial;
 text-align:center;
 background:#111;
-color:white;
+color:white
 }
-
 .logo{
 width:120px;
 margin-top:20px;
 }
-
 .poster{
-width:250px;
+width:260px;
 border-radius:10px;
-margin-top:20px;
+margin-top:20px
 }
 
 button{
-padding:14px 30px;
-font-size:18px;
+padding:15px 30px;
+font-size:20px;
 background:red;
 color:white;
 border:none;
 border-radius:6px;
-margin-top:25px;
-cursor:pointer;
+margin-top:20px
 }
 
 </style>
-
 </head>
 
 <body>
-
 <img src="logo.jpg" class="logo">
 
 <h1>FILMHALL</h1>
@@ -53,8 +46,8 @@ cursor:pointer;
 
 <p>Remaining Seats : <b id="remain">Loading...</b></p>
 
-<button onclick="payTicket()">Pay ₹100 For Ticket</button>
-
+<button onclick="pay()">Pay ₹100 Ticket</button>
+<h2 id="housefull" style="color:red;display:none;">HOUSEFULL</h2>
 
 <script type="module">
 
@@ -74,32 +67,38 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const docRef = doc(db,"shows","today");
+const ref = doc(db,"filmhall","counter");
 
 async function loadSeats(){
 
-const snap = await getDoc(docRef);
+  const snap = await getDoc(ref);
 
-if(snap.exists()){
+  let sold = snap.data().sold;
 
-let booked = snap.data().booked;
-let remain = 100 - booked;
+  let remain = 100 - sold;
 
-document.getElementById("remain").innerText = remain;
+  document.getElementById("remain").innerText = remain;
 
-}
+  if(remain <= 0){
+
+    document.getElementById("payBtn").style.display="none";
+
+    document.getElementById("housefull").style.display="block";
+
+  }
 
 }
 
 loadSeats();
 
-window.payTicket=function(){
+window.pay = function(){
 
-window.location.href="https://rzp.io/rzp/uYyE3swu";
+  window.open("upi://pay?pa=7326097670@ybl&pn=FilmHall&am=100");
+
+  setTimeout(()=>{
+
+    window.location.href="ticket.html";
+
+  },4000);
 
 }
-
-</script>
-
-</body>
-</html>
