@@ -4,107 +4,48 @@
 <title>FilmHall Booking</title>
 
 <style>
+
 body{
 font-family:Arial;
 text-align:center;
-background:#111;
-color:white
-}
-.logo{
-width:120px;
-margin-top:20px;
-}
-.poster{
-width:250px;
-border-radius:10px;
-margin-top:20px
+margin-top:100px;
 }
 
 button{
-padding:15px 30px;
-font-size:20px;
-background:red;
+font-size:22px;
+padding:15px 40px;
+background:green;
 color:white;
 border:none;
-border-radius:6px;
-margin-top:20px
+border-radius:10px;
 }
 
-#housefull{
-display:none;
-color:red;
-font-size:28px
-}
 </style>
 </head>
 
 <body>
-<img src="logo.jpg" class="logo">
 
-<h1>FILMHALL</h1>
-
-<img src="poster.jpg" class="poster">
+<h1>FILMHALL TICKET</h1>
 
 <h2>Movie : BARABADHU</h2>
 
-<p>Total Seats : 100</p>
+<h2>Test Ticket Price : ₹1</h2>
 
-<p>Remaining Seats : <b id="remain">Loading...</b></p>
+<button onclick="pay()">PAY ₹1</button>
 
-<button id="payBtn" onclick="pay()">Pay ₹1 Ticket</button>
+<script>
 
-<h2 id="housefull">HOUSEFULL</h2>
+function pay(){
 
-<script type="module">
+let upi="upi://pay?pa=7326097670@ybl&pn=FilmHall&am=1&cu=INR";
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+window.location.href=upi;
 
-const firebaseConfig = {
-apiKey: "AIzaSyA6gQVhIAYe_aQ6dbsC8yPmIbry39qr5_A",
-authDomain: "ticket-filmhall.firebaseapp.com",
-projectId: "ticket-filmhall",
-storageBucket: "ticket-filmhall.firebasestorage.app",
-messagingSenderId: "661202319125",
-appId: "1:661202319125:web:5f6ea7fa6ce02188cf5b1c"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-const ref = doc(db,"filmhall","counter");
-
-async function loadSeats(){
-
-const snap = await getDoc(ref);
-
-let sold = snap.data().sold;
-
-let remain = 10 - sold;
-
-document.getElementById("remain").innerText = remain;
-
-if(remain <= 0){
-
-document.getElementById("payBtn").style.display="none";
-
-document.getElementById("housefull").style.display="block";
-
-}
-
-}
-
-loadSeats();
-
-window.pay = function(){
-
-window.open("upi://pay?pa=7326097670@ybl&pn=FilmHall&am=1");
-
-setTimeout(()=>{
+setTimeout(function(){
 
 window.location.href="ticket.html";
 
-},4000)
+},5000);
 
 }
 
