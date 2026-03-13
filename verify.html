@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>FilmHall Ticket Verify</title>
+</head>
+
+<body style="text-align:center;font-family:Arial">
+
+<h1>Ticket Verification</h1>
+
+<h2 id="status">Checking...</h2>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyCXSoJ951nIgHvyQVwfBALCL4r2qRxoS8g",
+authDomain: "filmhall-ticket.firebaseapp.com",
+projectId: "filmhall-ticket",
+storageBucket: "filmhall-ticket.firebasestorage.app",
+messagingSenderId: "856241264632",
+appId: "1:856241264632:web:986c80f2f7970d99f8e80d"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const params = new URLSearchParams(window.location.search);
+
+let id = params.get("id");
+
+const ref = doc(db,"tickets",id);
+
+const snap = await getDoc(ref);
+
+if(!snap.exists()){
+
+document.getElementById("status").innerText="INVALID TICKET";
+
+}
+
+else if(snap.data().used){
+
+document.getElementById("status").innerText="TICKET ALREADY USED";
+
+}
+
+else{
+
+document.getElementById("status").innerText="VALID TICKET";
+
+await updateDoc(ref,{used:true});
+
+}
+
+</script>
+
+</body>
+</html>
