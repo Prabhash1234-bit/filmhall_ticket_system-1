@@ -29,15 +29,15 @@ border-radius:10px;
 
 <h2>Movie : BARABADHU</h2>
 
-<h2>Test Ticket Price : ₹1</h2>
+<h2>Test Ticket Price : ₹10</h2>
 
-<button onclick="pay()">PAY ₹1</button>
+<button onclick="pay()">PAY ₹10</button>
 
 <script>
 
 function pay(){
 
-let upi="upi://pay?pa=7326097670@ybl&pn=FilmHall&am=1&cu=INR";
+let upi="upi://pay?pa=7326097670@ybl&pn=FilmHall&am=10&cu=INR&tn=FilmHallTicket";
 
 window.location.href=upi;
 
